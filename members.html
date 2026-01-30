@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members Directory | Superteam Brazil 🇧🇷</title>
+    <meta name="description"
+        content="Meet the builders, designers, and creators shaping the future of Solana in Brazil.">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Specific styles for Members Page */
+        .members-header {
+            padding-top: 160px;
+            padding-bottom: 80px;
+            text-align: center;
+        }
+
+        .filters-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 14px 14px 50px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-full);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(153, 69, 255, 0.2);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-dim);
+            pointer-events: none;
+        }
+
+        .filter-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            padding: 10px 20px;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid var(--card-border);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-dim);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: rgba(153, 69, 255, 0.15);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(153, 69, 255, 0.2);
+        }
+
+        .filter-tag.core {
+            border-color: rgba(255, 204, 0, 0.2);
+            color: #FFCC00;
+        }
+
+        .filter-tag.core:hover,
+        .filter-tag.core.active {
+            background: rgba(255, 204, 0, 0.15);
+            border-color: #FFCC00;
+            box-shadow: 0 4px 12px rgba(255, 204, 0, 0.2);
+        }
+
+        .member-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 30px;
+        }
+
+        .member-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .member-card:hover::before {
+            opacity: 1;
+        }
+
+        .member-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 24px;
+            border: 3px solid var(--card-border);
+            object-fit: cover;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .member-card:hover .member-avatar {
+            transform: scale(1.05);
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px var(--primary-glow);
+        }
+
+        .member-role {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .member-company {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+
+        .member-skills {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .skill-badge {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            color: var(--text-dim);
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .member-card:hover .skill-badge {
+            border-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-link {
+            color: var(--text-dim);
+            transition: all 0.3s;
+            padding: 8px;
+            border-radius: 50%;
+            background: transparent;
+        }
+
+        .social-link:hover {
+            color: #1DA1F2;
+            background: rgba(29, 161, 242, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Loading state */
+        .loading-grid {
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <span style="color: var(--primary)">SUPER</span>TEAM <span
+                        class="text-brazil-gradient">BRAZIL</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="index.html#mission">Mission</a></li>
+                    <li><a href="index.html#events">Events</a></li>
+                    <li><a href="members.html" class="active">Members</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a href="index.html#join" class="btn btn-primary">Join Community</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="members-header">
+            <div class="container">
+                <h1 class="animate-fade-in" style="font-size: 3.5rem; margin-bottom: 20px;">Community <span
+                        class="text-gradient">Directory</span></h1>
+                <p class="animate-fade-in"
+                    style="color: var(--text-dim); max-width: 600px; margin: 0 auto; font-size: 1.2rem;">Discover
+                    the developers, designers, and creators building the future of Web3 in Brazil.</p>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top: 0;">
+            <div class="container">
+                <div class="filters-container animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="search-box">
+                        <i data-lucide="search" class="search-icon" width="20"></i>
+                        <input type="text" id="memberSearch" placeholder="Search members by name, role, or company...">
+                    </div>
+                    <div class="filter-tags" id="skillFilters">
+                        <button class="filter-tag active" data-filter="all">All</button>
+                        <button class="filter-tag core" data-filter="Core Team">Core Team</button>
+                        <button class="filter-tag" data-filter="Dev">Developer</button>
+                        <button class="filter-tag" data-filter="Design">Design</button>
+                        <button class="filter-tag" data-filter="Content">Content</button>
+                        <button class="filter-tag" data-filter="Growth">Growth</button>
+                    </div>
+                </div>
+
+                <div id="membersGrid" class="grid grid-4 animate-fade-in" style="animation-delay: 0.3s;">
+                    <!-- Members will be populated by JS -->
+                    <div class="loading-grid">Loading top talent...</div>
+                </div>
+
+                <div id="noResults" style="display: none; text-align: center; padding: 60px 0; color: var(--text-dim);">
+                    <i data-lucide="search-x" width="48" height="48" style="margin-bottom: 24px; opacity: 0.5;"></i>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 8px;">No members found</h3>
+                    <p>Try adjusting your search or filters.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <div class="card"
+                    style="text-align: center; padding: 80px 40px; display: flex; flex-direction: column; align-items: center;">
+                    <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Want to be listed here?</h2>
+                    <p style="color: var(--text-dim); margin-bottom: 40px; max-width: 500px; font-size: 1.1rem;">
+                        Join the Superteam Brazil community, contribute to bounties, and get verified to appear in our
+                        official directory.</p>
+                    <a href="index.html#join" class="btn btn-outline">Apply for Membership</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <a href="index.html" class="logo">
+                        <span style="color: var(--primary)">SUPER</span>TEAM <span
+                            class="text-brazil-gradient">BRAZIL</span>
+                    </a>
+                    <p>The home for Solana builders in Brazil. Building the future of Web3 in Latin America.</p>
+                </div>
+                <!-- Links same as index -->
+                <div class="footer-links">
+                    <h4>Community</h4>
+                    <ul>
+                        <li><a href="index.html#mission">About Us</a></li>
+                        <li><a href="index.html#events">Events</a></li>
+                        <li><a href="members.html">Members</a></li>
+                        <li><a href="index.html#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Build</h4>
+                    <ul>
+                        <li><a href="#">Earn (Bounties)</a></li>
+                        <li><a href="#">Grants</a></li>
+                        <li><a href="#">Jobs</a></li>
+                        <li><a href="#">Network</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Social</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Telegram</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Superteam Brazil. All rights reserved.</p>
+                <div style="display: flex; gap: 24px;">
+                    <a href="https://superteam.fun">Global Superteam</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+        // Init Icons
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
