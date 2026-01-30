@@ -13,6 +13,37 @@ if (typeof lucide !== 'undefined') {
     lucide.createIcons();
 }
 
+// Mobile Menu Logic
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileMenuClose = document.getElementById('mobileMenuClose');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        mobileMenuBtn.style.opacity = '0'; // Hide hamburger
+        mobileMenuBtn.style.pointerEvents = 'none';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    });
+
+    const closeMenu = () => {
+        mobileMenu.classList.remove('active');
+        mobileMenuBtn.style.opacity = '1'; // Show hamburger
+        mobileMenuBtn.style.pointerEvents = 'auto';
+        document.body.style.overflow = '';
+    };
+
+    if (mobileMenuClose) {
+        mobileMenuClose.addEventListener('click', closeMenu);
+    }
+
+    // Close menu when clicking links
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMenu);
+    });
+}
+
 /**
  * INDEX PAGE LOGIC
  */

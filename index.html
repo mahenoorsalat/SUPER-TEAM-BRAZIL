@@ -27,6 +27,35 @@
         <div class="nav-actions">
           <a href="#join" class="btn btn-primary">Join Community</a>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay" id="mobileMenu">
+          <button class="mobile-menu-btn" id="mobileMenuClose" style="position: absolute; top: 24px; right: 24px;"
+            aria-label="Close Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18" />
+              <path d="m6 6 18 12" />
+            </svg>
+          </button>
+          <div class="mobile-menu-content">
+            <a href="#mission" class="mobile-link">Mission</a>
+            <a href="#events" class="mobile-link">Events</a>
+            <a href="members.html" class="mobile-link">Members</a>
+            <a href="#faq" class="mobile-link">FAQ</a>
+            <a href="#join" class="btn btn-primary" style="margin-top: 10px;">Join Community</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
@@ -157,7 +186,8 @@
             <div style="padding: 30px;">
               <div
                 style="color: var(--primary); font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="map-pin" width="16"></i> SAO PAULO</div>
+                <i data-lucide="map-pin" width="16"></i> SAO PAULO
+              </div>
               <h3 style="margin-bottom: 15px; font-size: 1.5rem;">Solana Ecosystem Call: Brazil Edition</h3>
               <p style="color: var(--text-dim); margin-bottom: 25px;">A monthly gathering for builders to demo their
                 projects and get updates on the latest Solana tech.</p>
@@ -175,7 +205,8 @@
             <div style="padding: 30px;">
               <div
                 style="color: var(--secondary); font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-                <i data-lucide="video" width="16"></i> REMOTE</div>
+                <i data-lucide="video" width="16"></i> REMOTE
+              </div>
               <h3 style="margin-bottom: 15px; font-size: 1.5rem;">Rust & Anchor Masterclass</h3>
               <p style="color: var(--text-dim); margin-bottom: 25px;">Deep dive into smart contract security and
                 optimization with expert devs from the ecosystem.</p>

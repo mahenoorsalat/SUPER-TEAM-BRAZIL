@@ -227,6 +227,35 @@
                 <div class="nav-actions">
                     <a href="index.html#join" class="btn btn-primary">Join Community</a>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open Menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" x2="20" y1="12" y2="12"></line>
+                        <line x1="4" x2="20" y1="6" y2="6"></line>
+                        <line x1="4" x2="20" y1="18" y2="18"></line>
+                    </svg>
+                </button>
+
+                <!-- Mobile Menu Overlay -->
+                <div class="mobile-menu-overlay" id="mobileMenu">
+                    <button class="mobile-menu-btn" id="mobileMenuClose"
+                        style="position: absolute; top: 24px; right: 24px;" aria-label="Close Menu">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 18 12" />
+                        </svg>
+                    </button>
+                    <div class="mobile-menu-content">
+                        <a href="index.html#mission" class="mobile-link">Mission</a>
+                        <a href="index.html#events" class="mobile-link">Events</a>
+                        <a href="members.html" class="mobile-link active">Members</a>
+                        <a href="index.html#faq" class="mobile-link">FAQ</a>
+                        <a href="index.html#join" class="btn btn-primary" style="margin-top: 10px;">Join Community</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
